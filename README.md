@@ -1,1 +1,60 @@
-# todos-redux-reselect<br />redux with reselect<br />import { createSelector } from 'reselect';<br /><br />const getVisibilityFilter = (state) =&gt; state.visibilityFilter;<br />const getTodos = (state) =&gt; state.todos;<br /><br />export const getVisibleTodos = createSelector(<br />	[ getVisibilityFilter, getTodos ],<br />	(visibilityFilter, todos) =&gt; {<br />		console.log('dododod')<br />		switch(visibilityFilter) {<br />			case 'SHOW_ALL':<br />				return todos;<br />			case 'SHOW_COMPLETED':<br />				return todos.filter(t =&gt; t.completed);<br />			case 'SHOW_ACTIVE':<br />				return todos.filter( t =&gt; !t.completed);<br />			default:<br />				return todos;<br />		}<br />	}<br />)<br /><br />多组件更像selector的办法<br />上面的方法是创建一个selector，export一个selector出去大家一起使用，<br />下面的是export函数，调用后会返回一个新创建的selector<br />export const makeMapStateToProps = () =&gt; {<br />	const getVisibleTodos = createSelector(<br />		[ getVisibilityFilter, getTodos ],<br />		(visibilityFilter, todos) =&gt; {<br />			console.log('dododod')<br />			switch(visibilityFilter) {<br />				case 'SHOW_ALL':<br />					return todos;<br />				case 'SHOW_COMPLETED':<br />					return todos.filter(t =&gt; t.completed);<br />				case 'SHOW_ACTIVE':<br />					return todos.filter( t =&gt; !t.completed);<br />				default:<br />					return todos;<br />			}<br />		}<br />	)<br />	return getVisibleTodos;<br />}<br /><br />const makeMapStateToProps = () =&gt; {<br />  const getVisibleTodos = makeGetVisibleTodos()<br />  const mapStateToProps = (state, props) =&gt; {<br />    return {<br />      todos: getVisibleTodos(state, props)<br />    }<br />  }<br />  return mapStateToProps<br />}<br /><br /><br />  Reselect 库可以创建可记忆的(Memoized)、可组合的 selector 函数。<br /> 	一份selector只能有一份记忆，因此有多组件共享一个selector.js时为每一个组件创建一份记忆，就要为每一个组件createSelector。<br /># todos-redux-reselect<br />redux with reselect<br />import { createSelector } from 'reselect';<br /><br />const getVisibilityFilter = (state) =&gt; state.visibilityFilter;<br />const getTodos = (state) =&gt; state.todos;<br /><br />export const getVisibleTodos = createSelector(<br />	[ getVisibilityFilter, getTodos ],<br />	(visibilityFilter, todos) =&gt; {<br />		console.log('dododod')<br />		switch(visibilityFilter) {<br />			case 'SHOW_ALL':<br />				return todos;<br />			case 'SHOW_COMPLETED':<br />				return todos.filter(t =&gt; t.completed);<br />			case 'SHOW_ACTIVE':<br />				return todos.filter( t =&gt; !t.completed);<br />			default:<br />				return todos;<br />		}<br />	}<br />)<br /><br />多组件更像selector的办法<br />上面的方法是创建一个selector，export一个selector出去大家一起使用，<br />下面的是export函数，调用后会返回一个新创建的selector<br />export const makeMapStateToProps = () =&gt; {<br />	const getVisibleTodos = createSelector(<br />		[ getVisibilityFilter, getTodos ],<br />		(visibilityFilter, todos) =&gt; {<br />			console.log('dododod')<br />			switch(visibilityFilter) {<br />				case 'SHOW_ALL':<br />					return todos;<br />				case 'SHOW_COMPLETED':<br />					return todos.filter(t =&gt; t.completed);<br />				case 'SHOW_ACTIVE':<br />					return todos.filter( t =&gt; !t.completed);<br />				default:<br />					return todos;<br />			}<br />		}<br />	)<br />	return getVisibleTodos;<br />}<br /><br />const makeMapStateToProps = () =&gt; {<br />  const getVisibleTodos = makeGetVisibleTodos()<br />  const mapStateToProps = (state, props) =&gt; {<br />    return {<br />      todos: getVisibleTodos(state, props)<br />    }<br />  }<br />  return mapStateToProps<br />}<br /><br /><br />  Reselect 库可以创建可记忆的(Memoized)、可组合的 selector 函数。<br /> 	一份selector只能有一份记忆，因此有多组件共享一个selector.js时为每一个组件创建一份记忆，就要为每一个组件createSelector。<br />
+import { createSelector } from 'reselect';
+
+const getVisibilityFilter = (state) => state.visibilityFilter;
+const getTodos = (state) => state.todos;
+
+export const getVisibleTodos = createSelector(
+	[ getVisibilityFilter, getTodos ],
+	(visibilityFilter, todos) => {
+		console.log('dododod')
+		switch(visibilityFilter) {
+			case 'SHOW_ALL':
+				return todos;
+			case 'SHOW_COMPLETED':
+				return todos.filter(t => t.completed);
+			case 'SHOW_ACTIVE':
+				return todos.filter( t => !t.completed);
+			default:
+				return todos;
+		}
+	}
+)
+
+多组件更像selector的办法
+上面的方法是创建一个selector，export一个selector出去大家一起使用，
+下面的是export函数，调用后会返回一个新创建的selector
+export const makeMapStateToProps = () => {
+	const getVisibleTodos = createSelector(
+		[ getVisibilityFilter, getTodos ],
+		(visibilityFilter, todos) => {
+			console.log('dododod')
+			switch(visibilityFilter) {
+				case 'SHOW_ALL':
+					return todos;
+				case 'SHOW_COMPLETED':
+					return todos.filter(t => t.completed);
+				case 'SHOW_ACTIVE':
+					return todos.filter( t => !t.completed);
+				default:
+					return todos;
+			}
+		}
+	)
+	return getVisibleTodos;
+}
+
+const makeMapStateToProps = () => {
+  const getVisibleTodos = makeGetVisibleTodos()
+  const mapStateToProps = (state, props) => {
+    return {
+      todos: getVisibleTodos(state, props)
+    }
+  }
+  return mapStateToProps
+}
+
+
+ Reselect 库可以创建可记忆的(Memoized)、可组合的 selector 函数。
+	一份selector只能有一份记忆，因此有多组件共享一个selector.js时为每一个组件创建一份记忆，就要为每一个组件createSelector。
+
+

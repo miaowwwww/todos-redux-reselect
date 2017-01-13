@@ -53,8 +53,8 @@ export const getVisibleTodos = createSelector(
 //   return mapStateToProps
 // }
 
-/*
- * Reselect 库可以创建可记忆的(Memoized)、可组合的 selector 函数。
- *	一份selector只能有一份记忆，因此有多组件共享一个selector.js时为每一个组件创建一份记忆，就要为每一个组件createSelector。
-*/
+
+//  Reselect 库可以创建可记忆的(Memoized)、可组合的 selector 函数。
+// 	一份selector只能有一份记忆，因此有多组件共享一个selector.js时为每一个组件创建一份记忆，就要为每一个组件createSelector。
+
 

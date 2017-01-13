@@ -1,3 +1,5 @@
+npm install<br/>
+npm start<br/>
 <div class="cnblogs_code">
 <pre>import { createSelector } <span style="color: #0000ff;">from</span> <span style="color: #800000;">'</span><span style="color: #800000;">reselect</span><span style="color: #800000;">'</span><span style="color: #000000;">;
 
